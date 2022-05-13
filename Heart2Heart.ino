@@ -1,3 +1,6 @@
+//Code from the Crystal Ball Exercise in the Arduino Projects Book
+//code from https://create.arduino.cc/projecthub/muhammad-aqib/arduino-rgb-led-tutorial-fc003e
+
 #include <LiquidCrystal_I2C.h>
 
 LiquidCrystal_I2C lcd(0x20, 16, 2); // I2C address 0x20, 16 column and 2 rows
@@ -12,33 +15,25 @@ int green_light_pin = 12;
 int blue_light_pin = 11;
 
 void setup() {
+  lcd.init(); // initialize the lcd
+  lcd.backlight();
+
+  lcd.setCursor(0, 0);         // move cursor to   (0, 0)
+  lcd.print("Press button for");        // print message at (0, 0)
+  lcd.setCursor(0, 1);         // move cursor to   (0, 1)
+  lcd.print("a question!"); // print message at (0, 1)
+  RGB_color(255 - 255, 255 - 0, 255 - 0); // Red
 
   pinMode(red_light_pin, OUTPUT);
   pinMode(green_light_pin, OUTPUT);
   pinMode(blue_light_pin, OUTPUT);
-
-  lcd.init(); // initialize the lcd
-  lcd.backlight();
-
-  pinMode(buttonPin, INPUT);
-
-  lcd.setCursor(0, 0);         // move cursor to   (0, 0)
-  lcd.print("Press button for");        // print message at (0, 0)
-  lcd.setCursor(0, 1);         // move cursor to   (2, 1)
-  lcd.print("a question!"); // print message at (2, 1)
-
-  analogWrite(red_light_pin,  0);
-  analogWrite(green_light_pin,  255);
-  analogWrite(blue_light_pin,  255);
-
-
 }
 
 void loop() {
   buttonState = digitalRead(buttonPin);
 
   if (buttonState != prevButtonState) {
-    if (buttonState == HIGH) {
+    if (buttonState == LOW) {
       reply = random(3);
 
       lcd.clear();
@@ -48,21 +43,21 @@ void loop() {
         case 0:
           lcd.print("What's your");
           lcd.setCursor(0, 1);
-          lcd.print("starsign?");
-          RGB_color(256-2, 256-245, 256-217); // Cyan
+          lcd.print("love language?");
+          RGB_color(255 - 255, 255 - 0, 255 - 200); //pink
           break;
         case 1:
           lcd.print("What's your");
           lcd.setCursor(0, 1);
-          lcd.print("love language?");
-          RGB_color(256-108, 256-66, 256-245); // Cyan
+          lcd.print("starsign?");
+          RGB_color(255 - 255, 255 - 136, 255 - 0); //orange
           break;
         case 2:
-          lcd.print("what's your");
+          lcd.print("What's your");
           lcd.setCursor(0, 1);
           lcd.print("attachment style?");
-          RGB_color(256-209, 256-245, 256-2); // Raspberry
-          break;
+          RGB_color(255 - 0, 255 - 255, 255 - 179); //mint
+          breakx;
       }
     }
   }
